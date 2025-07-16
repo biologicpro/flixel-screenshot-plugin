@@ -165,7 +165,7 @@ class ScreenShotPlugin extends flixel.FlxBasic {
     private static var lastWidth:Int;
     private static var lastHeight:Int;
 
-    private var container:Sprite;
+    private var screenContainer:Sprite;
     private var flashSprite:Sprite;
     private var flashBitmap:Bitmap;
     private var screenshotSprite:Sprite;
@@ -188,8 +188,8 @@ class ScreenShotPlugin extends flixel.FlxBasic {
         lastWidth = FlxG.width;
         lastHeight = FlxG.height;
 
-        container = new Sprite();
-        FlxG.stage.addChild(container);
+        screenContainer = new Sprite();
+        FlxG.stage.addChild(screenContainer);
 
         flashSprite = new Sprite();
         flashSprite.alpha = 0;
@@ -198,7 +198,7 @@ class ScreenShotPlugin extends flixel.FlxBasic {
 
         screenshotSprite = new Sprite();
         screenshotSprite.alpha = 0;
-        container.addChild(screenshotSprite);
+        screenContainer.addChild(screenshotSprite);
 
         outlineBitmap = new Bitmap(new BitmapData(Std.int(lastWidth / 5) + 10, Std.int(lastHeight / 5) + 10, true, outlineColor));
         outlineBitmap.x = 5;
@@ -209,7 +209,7 @@ class ScreenShotPlugin extends flixel.FlxBasic {
         shotDisplayBitmap.scaleX /= 5;
         shotDisplayBitmap.scaleY /= 5;
         screenshotSprite.addChild(shotDisplayBitmap);
-        container.addChild(flashSprite);
+        screenContainer.addChild(flashSprite);
 
         FlxG.signals.gameResized.add(this.resizeBitmap);
     }
@@ -267,19 +267,19 @@ class ScreenShotPlugin extends flixel.FlxBasic {
             FlxG.plugins.remove(this);
 
         FlxG.signals.gameResized.remove(this.resizeBitmap);
-        FlxG.stage.removeChild(container);
+        FlxG.stage.removeChild(screenContainer);
 
         super.destroy();
 
-        if (container == null)
+        if (screenContainer == null)
             return;
 
         @:privateAccess
-        for (parent in [container, flashSprite, screenshotSprite])
+        for (parent in [screenContainer, flashSprite, screenshotSprite])
             for (child in parent.__children)
                 parent.removeChild(child);
 
-        container = null;
+        screenContainer = null;
         flashSprite = null;
         flashBitmap = null;
         screenshotSprite = null;
